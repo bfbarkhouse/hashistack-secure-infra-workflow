@@ -1,10 +1,3 @@
-variable "vault_approle_roleid" {
-  type = string
-}
-variable "vault_approle_secretid" {
-  type = string
-  sensitive = true
-}
 variable "vault_addr" {
   type = string
 }
@@ -18,9 +11,6 @@ variable "vm_name" {
   type = string
 }
 variable "vm_admin" {
-  type = string
-}
-variable "image_name" {
   type = string
 }
 variable "boundary_addr" {

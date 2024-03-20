@@ -24,19 +24,8 @@ provider "azurerm" {
     features {}
 }
 
-provider "vault" {
-  #   address = var.vault_addr
-  #   namespace = "admin"
-  #   skip_child_token = true
-  # auth_login {
-  #   path = "auth/approle/login"
-  #   namespace = "admin"
-  #   parameters = {
-  #     role_id = var.vault_approle_roleid
-  #     secret_id = var.vault_approle_secretid
-  #   }
-  #}
-}
+provider "vault" {}
+
 provider "boundary" {
   addr                            = var.boundary_addr
   auth_method_id                  = var.boundary_authmethod

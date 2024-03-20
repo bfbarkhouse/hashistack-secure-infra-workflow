@@ -4,7 +4,7 @@
     "bound_claims_type": "glob",
     "bound_claims": {
       "sub":
-  "organization:my-org-name:project:my-project-name:workspace:my-workspace-name:run_phase:*"
+  "organization:bbarkhouse-training:project:hashistack-secure-infra-workflow:workspace:*:run_phase:*"
     },
     "user_claim": "terraform_full_workspace",
     "role_type": "jwt",
