@@ -25,17 +25,17 @@ provider "azurerm" {
 }
 
 provider "vault" {
-    address = var.vault_addr
-    namespace = "admin"
-    skip_child_token = true
-  auth_login {
-    path = "auth/approle/login"
-    namespace = "admin"
-    parameters = {
-      role_id = var.vault_approle_roleid
-      secret_id = var.vault_approle_secretid
-    }
-  }
+  #   address = var.vault_addr
+  #   namespace = "admin"
+  #   skip_child_token = true
+  # auth_login {
+  #   path = "auth/approle/login"
+  #   namespace = "admin"
+  #   parameters = {
+  #     role_id = var.vault_approle_roleid
+  #     secret_id = var.vault_approle_secretid
+  #   }
+  #}
 }
 provider "boundary" {
   addr                            = var.boundary_addr
