@@ -22,7 +22,7 @@ resource "vault_kv_secret_v2" "example" {
 # Locate the Packer built image
 data "hcp_packer_artifact" "secure-infra-workflow" {
   bucket_name   = var.packer_bucket_name
-  channel_name  = var.packer_bucket_name
+  channel_name  = var.packer_channel_name
   platform      = var.packer_platform
   region        = "eastus"
 }
