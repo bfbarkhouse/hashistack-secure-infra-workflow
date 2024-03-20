@@ -32,6 +32,10 @@ variable "image_name" {
 variable "location" {
   type = string
 }
+#Set a local variable to the current datetime in a readable format
+locals {
+  current_date = formatdate("YYYYMMDDhhmm", timestamp())
+}
 
 source "azure-arm" "ubuntu" {
   azure_tags = {
@@ -43,7 +47,7 @@ source "azure-arm" "ubuntu" {
   image_publisher                   = "canonical"
   image_sku                         = "22_04-lts-gen2"
   location                          = "${var.location}"
-  managed_image_name                = "${var.image_name}"
+  managed_image_name                = "${var.image_name}-${local.current_date}"
   managed_image_resource_group_name = "${var.resource_group}"
   os_type                           = "linux"
   subscription_id                   = "${var.subscription_id}"

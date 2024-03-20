@@ -186,5 +186,7 @@ resource "boundary_target" "example" {
 # vault kv get kv/${var.vm_name}-ssh
 #Prove the SSH key is on the VM, use Azure run command
 # cat /home/adminuser/.ssh/authorized_keys
+#Connect SSH session in Boundary and read the secret placed by Vault Agent
+#cat /opt/vault/data/app-secret.txt
 #Read the app secret in Vault
-#vault kv/
+#vault kv/app1
