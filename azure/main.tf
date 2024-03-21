@@ -178,7 +178,7 @@ resource "boundary_target" "example" {
   injected_application_credential_source_ids = [
     boundary_credential_library_vault.example.id
   ]
-  #egress_worker_filter = "\"azure\" in \"/tags/type\""
+  #egress_worker_filter = "\"worker\" in \"/tags/type\""
   # enable_session_recording = true
   # storage_bucket_id        = "sb_AJmZf2yShY"
 }
