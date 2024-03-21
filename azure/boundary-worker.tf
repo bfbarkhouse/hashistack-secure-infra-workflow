@@ -25,7 +25,7 @@ resource "azurerm_container_group" "container" {
       }
     }
     commands = [
-        "mv /boundary/tmp/boundary-worker.hcl /boundary/config.hcl",
+        "mv /boundary/tmp/azure/boundary-worker.hcl /boundary/config.hcl",
         "rm -rf /boundary/tmp",
         "boundary-enterprise"
         ] 
