@@ -179,8 +179,8 @@ resource "boundary_target" "example" {
     boundary_credential_library_vault.example.id
   ]
   #egress_worker_filter = "\"worker\" in \"/tags/type\""
-  # enable_session_recording = true
-  # storage_bucket_id        = "sb_AJmZf2yShY"
+  enable_session_recording = true
+  storage_bucket_id        = "sb_AJmZf2yShY"
 }
 
 #Read the SSH keys in Vault
