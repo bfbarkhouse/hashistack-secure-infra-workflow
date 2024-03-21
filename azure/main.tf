@@ -48,7 +48,8 @@ resource "azurerm_network_security_group" "example" {
   resource_group_name = var.resource_group
 
   security_rule {
-    name                       = "internet"
+    #name                       = "internet"
+    name = "SSH"
     priority                   = 100
     direction                  = "Inbound"
     access                     = "Allow"
@@ -64,12 +65,12 @@ resource "azurerm_network_interface_security_group_association" "example" {
   network_security_group_id = azurerm_network_security_group.example.id
 }
 
-resource "azurerm_public_ip" "example2" {
-  name                = "${var.vm_name}-public-ip-01"
-  resource_group_name = var.resource_group
-  location            = var.az_location
-  allocation_method   = "Static"
-}
+# resource "azurerm_public_ip" "example2" {
+#   name                = "${var.vm_name}-public-ip-01"
+#   resource_group_name = var.resource_group
+#   location            = var.az_location
+#   allocation_method   = "Static"
+# }
 
 resource "azurerm_network_interface" "example" {
   name                = "${var.vm_name}-nic"
@@ -80,7 +81,7 @@ resource "azurerm_network_interface" "example" {
     name                          = "${var.vm_name}-internal"
     subnet_id                     = azurerm_subnet.example.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id = azurerm_public_ip.example2.id
+    #public_ip_address_id = azurerm_public_ip.example2.id
   }
 }
 resource "azurerm_linux_virtual_machine" "example" {
@@ -155,7 +156,8 @@ resource "boundary_host_catalog_static" "example" {
 resource "boundary_host_static" "example" {
   name            = "${var.vm_name}"
   host_catalog_id = boundary_host_catalog_static.example.id
-  address         = azurerm_public_ip.example2.ip_address
+  #address         = azurerm_public_ip.example2.ip_address
+  address = azurerm_linux_virtual_machine.example.private_ip_address
 }
 
 resource "boundary_host_set_static" "example" {
