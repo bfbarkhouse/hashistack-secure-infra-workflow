@@ -2,9 +2,7 @@ resource "azurerm_container_group" "container" {
   name                = "boundary-worker-group"
   location            = var.az_location
   resource_group_name = var.resource_group
-  #ip_address_type     = "Public"
-  ip_address_type = "Private"
-  subnet_ids = [ azurerm_subnet.example.id ]
+  ip_address_type     = "Public"
   os_type             = "Linux"
   restart_policy      = "Never"
 
