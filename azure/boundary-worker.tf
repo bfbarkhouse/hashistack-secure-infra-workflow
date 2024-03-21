@@ -18,16 +18,15 @@ resource "azurerm_container_group" "container" {
     }
     volume {
       name = "boundary-config"
-      mount_path = "/tmp/boundary-config"
+      mount_path = "/mnt/boundary-config"
       git_repo {
         url = "https://github.com/bfbarkhouse/hashistack-secure-infra-workflow"
       }
     }
-    # commands = [
-    #     "mkdir /boundary",
-    #     "mv /tmp/boundary-config/azure/boundary-worker.hcl /boundary/config.hcl",
-    #     "rm -rf /tmp/boundary-config",
-    #     "boundary-enterprise"
-    #     ] 
+    commands = [
+        "sudo mv /tmp/boundary-config/azure/boundary-worker.hcl /boundary/config.hcl",
+        "sudo rm -rf /tmp/boundary-config",
+        "boundary-enterprise"
+        ] 
   }
 }
