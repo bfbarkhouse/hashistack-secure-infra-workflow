@@ -21,7 +21,6 @@ resource "azurerm_container_group" "container" {
       mount_path = "/boundary/tmp"
       git_repo {
         url = "https://github.com/bfbarkhouse/hashistack-secure-infra-workflow"
-        directory = "/boundary/tmp"
       }
     }
     commands = [
