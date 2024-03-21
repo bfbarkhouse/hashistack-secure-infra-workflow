@@ -24,7 +24,7 @@ resource "azurerm_container_group" "container" {
       }
     }
     commands = [
-        "/bin/bash", "-c", "mv /boundary/hashistack-secure-infra-workflow/azure/boundary-worker.hcl /boundary/config.hcl; rm -rf /boundary/hashistack-secure-infra-workflow"
+        "/bin/sh", "-c", "mv /boundary/hashistack-secure-infra-workflow/azure/boundary-worker.hcl /boundary/config.hcl; rm -rf /boundary/hashistack-secure-infra-workflow"
         ] 
   }
 }
