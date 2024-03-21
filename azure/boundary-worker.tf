@@ -1,8 +1,17 @@
+resource "azurerm_subnet" "cg" {
+  name                 = "container-group-subnet"
+  resource_group_name  = var.resource_group
+  virtual_network_name = azurerm_virtual_network.example.name
+  address_prefixes     = ["10.0.3.0/24"]
+}
+
 resource "azurerm_container_group" "container" {
   name                = "boundary-worker-group"
   location            = var.az_location
   resource_group_name = var.resource_group
-  ip_address_type     = "Public"
+  #ip_address_type     = "Public"
+  ip_address_type = "Private"
+  subnet_ids = [ azurerm_subnet.cg.id ]
   os_type             = "Linux"
   restart_policy      = "Never"
 
