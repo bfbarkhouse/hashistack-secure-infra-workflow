@@ -18,7 +18,7 @@ resource "azurerm_container_group" "container" {
     }
     volume {
       name = "boundary-config"
-      mount_path = "/mnt/boundary-config"
+      mount_path = "/tmp/boundary-config"
       git_repo {
         url = "https://github.com/bfbarkhouse/hashistack-secure-infra-workflow"
       }
