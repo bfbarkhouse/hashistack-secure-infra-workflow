@@ -4,7 +4,7 @@ resource "azurerm_container_group" "container" {
   resource_group_name = var.resource_group
   ip_address_type     = "Public"
   os_type             = "Linux"
-  restart_policy      = "Always"
+  restart_policy      = "Never"
 
   container {
     name   = "boundary-worker"
@@ -21,11 +21,12 @@ resource "azurerm_container_group" "container" {
       mount_path = "/boundary"
       git_repo {
         url = "https://github.com/bfbarkhouse/hashistack-secure-infra-workflow"
+        directory = "/boundary/repo"
       }
     }
     commands = [
-        "mv /boundary/hashistack-secure-infra-workflow/azure/boundary-worker.hcl /boundary/config.hcl",
-        "rm -rf /boundary/hashistack-secure-infra-workflow",
+        "mv /boundary/repo/boundary-worker.hcl /boundary/config.hcl",
+        "rm -rf /boundary/repo",
         "boundary-enterprise"
         ] 
   }
