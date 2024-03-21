@@ -23,11 +23,11 @@ resource "azurerm_container_group" "container" {
         url = "https://github.com/bfbarkhouse/hashistack-secure-infra-workflow"
       }
     }
-    commands = [
-        "mkdir /boundary",
-        "mv /tmp/boundary-config/azure/boundary-worker.hcl /boundary/config.hcl",
-        "rm -rf /tmp/boundary-config",
-        "boundary-enterprise"
-        ] 
+    # commands = [
+    #     "mkdir /boundary",
+    #     "mv /tmp/boundary-config/azure/boundary-worker.hcl /boundary/config.hcl",
+    #     "rm -rf /tmp/boundary-config",
+    #     "boundary-enterprise"
+    #     ] 
   }
 }
