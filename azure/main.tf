@@ -84,12 +84,8 @@ resource "azurerm_network_interface" "example" {
     #public_ip_address_id = azurerm_public_ip.example2.id
   }
 }
-# locals {
-#   custom_data = <<CUSTOM_DATA
-#   #!/bin/bash
-#   sudo echo VAULT_ADDR=${var.vault_addr} >> /etc/vault.d/vault.env
-#   CUSTOM_DATA
-# }
+
+#Injecting Vault cluster address to .env file used by systemd
 data "template_cloudinit_config" "vault-config" {
   gzip = true
   base64_encode = true
@@ -106,7 +102,6 @@ resource "azurerm_linux_virtual_machine" "example" {
   size                = "Standard_F2s_v2"
   source_image_id = data.hcp_packer_artifact.secure-infra-workflow.external_identifier
   admin_username      = var.vm_admin
-  #custom_data = base64encode(local.custom_data)
   custom_data = data.template_cloudinit_config.vault-config.rendered
   network_interface_ids = [
     azurerm_network_interface.example.id,
@@ -146,7 +141,6 @@ resource "boundary_credential_store_vault" "example" {
   description = "HCP Vault Credential Store"
   address     = var.vault_addr
   namespace = "admin"
-  #token       = var.boundary_vault_token
   token = vault_token.example.client_token
   scope_id    = data.boundary_scope.project.id
 }
