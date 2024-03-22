@@ -16,6 +16,9 @@ variable "vm_admin" {
 variable "boundary_addr" {
   type = string
 }
+variable "hcp_boundary_cluster_id" {
+  type = string
+}
 variable "boundary_authmethod" {
   type = string
 }

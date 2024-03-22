@@ -34,6 +34,7 @@ resource "azurerm_container_group" "container" {
       port     = 9202
       protocol = "TCP"
     }
+    environment_variables = { "HCP_BOUNDARY_CLUSTER_ID" = var.hcp_boundary_cluster_id }
     volume {
       name = "boundary-config"
       mount_path = "/boundary"
