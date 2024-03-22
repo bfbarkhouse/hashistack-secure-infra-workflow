@@ -85,10 +85,10 @@ resource "azurerm_network_interface" "example" {
   }
 }
 locals {
-  custom_data = <<EOF
+  custom_data = <<CUSTOM_DATA
   #!/bin/bash
   echo VAULT_ADDR=${var.vault_addr} >> /etc/vault.d/vault.env
-  EOF
+  CUSTOM_DATA
 }
 
 resource "azurerm_linux_virtual_machine" "example" {
