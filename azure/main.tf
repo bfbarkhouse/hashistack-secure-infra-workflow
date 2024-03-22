@@ -85,11 +85,11 @@ resource "azurerm_network_interface" "example" {
   }
 }
 locals {
-  user_data = <<USER_DATA
+  custom_data = <<EOF
   #!/bin/bash
   sudo -i
   echo VAULT_ADDR=${var.vault_addr} >> /etc/vault.d/vault.env
-  USER_DATA
+  EOF
 }
 
 resource "azurerm_linux_virtual_machine" "example" {
@@ -99,7 +99,7 @@ resource "azurerm_linux_virtual_machine" "example" {
   size                = "Standard_F2s_v2"
   source_image_id = data.hcp_packer_artifact.secure-infra-workflow.external_identifier
   admin_username      = var.vm_admin
-  user_data = base64encode(local.user_data)
+  user_data = base64encode(local.custom_data)
   network_interface_ids = [
     azurerm_network_interface.example.id,
   ]
