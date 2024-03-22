@@ -1,7 +1,8 @@
 pid_file = "/opt/vault/data/pidfile"
 
 vault {
-  address = "https://bbarkhouse-vault-cluster.vault.ccaa60c2-b32a-48c6-a722-261bab55cd7c.aws.hashicorp.cloud:8200"
+  #address read from env VAULT_ADDR
+  #address = "https://bbarkhouse-vault-cluster.vault.ccaa60c2-b32a-48c6-a722-261bab55cd7c.aws.hashicorp.cloud:8200"
 }
 
 auto_auth {

@@ -1,6 +1,5 @@
 disable_mlock = true
 
-#hcp_boundary_cluster_id = "083e8b02-a6dd-4b6b-99c5-f28d3625d1c1"
 hcp_boundary_cluster_id = "env://HCP_BOUNDARY_CLUSTER_ID"
 
 listener "tcp" {

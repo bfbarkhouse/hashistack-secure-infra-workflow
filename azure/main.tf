@@ -84,6 +84,17 @@ resource "azurerm_network_interface" "example" {
     #public_ip_address_id = azurerm_public_ip.example2.id
   }
 }
+locals {
+  user_data = <<USER_DATA
+  #!/bin/bash
+  sudo -i 
+  cat << EOF > /etc/userdata
+  export VAULT_ADDR=${var.vault_addr}
+  systemctl enable vault.service
+  EOF
+  USER_DATA
+}
+
 resource "azurerm_linux_virtual_machine" "example" {
   name                = var.vm_name
   resource_group_name = var.resource_group
@@ -91,6 +102,7 @@ resource "azurerm_linux_virtual_machine" "example" {
   size                = "Standard_F2s_v2"
   source_image_id = data.hcp_packer_artifact.secure-infra-workflow.external_identifier
   admin_username      = var.vm_admin
+  user_data = base64encode(local.user_data)
   network_interface_ids = [
     azurerm_network_interface.example.id,
   ]
