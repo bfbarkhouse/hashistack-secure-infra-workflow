@@ -87,7 +87,6 @@ resource "azurerm_network_interface" "example" {
 locals {
   custom_data = <<EOF
   #!/bin/bash
-  sudo -i
   echo VAULT_ADDR=${var.vault_addr} >> /etc/vault.d/vault.env
   EOF
 }
