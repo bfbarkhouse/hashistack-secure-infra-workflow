@@ -86,6 +86,7 @@ resource "azurerm_network_interface" "example" {
 }
 locals {
   user_data = <<USER_DATA
+  #!/bin/sh
   echo VAULT_ADDR=${var.vault_addr} >> /etc/vault.d/vault.env
   USER_DATA
 }
