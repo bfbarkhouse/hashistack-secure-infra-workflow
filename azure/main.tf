@@ -88,10 +88,7 @@ locals {
   user_data = <<USER_DATA
   #!/bin/bash
   sudo -i 
-  cat << EOF > /etc/userdata
-  export VAULT_ADDR=${var.vault_addr}
-  systemctl enable vault.service
-  EOF
+  echo VAULT_ADDR=${var.vault_addr} >> /etc/environment
   USER_DATA
 }
 

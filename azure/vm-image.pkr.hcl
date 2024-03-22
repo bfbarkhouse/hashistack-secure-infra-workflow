@@ -110,8 +110,8 @@ build {
     execute_command = "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
     inline          = ["mv /tmp/vault.service /usr/lib/systemd/system"]
   }
-  // provisioner "shell" {
-  //   execute_command = "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
-  //   inline          = ["systemctl enable vault.service"]
-  // }
+  provisioner "shell" {
+    execute_command = "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
+    inline          = ["systemctl enable vault.service"]
+  }
 }
