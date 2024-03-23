@@ -11,20 +11,20 @@ resource "vault_kv_secret_v2" "example" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      public_key_openssh = tls_private_key.ssh_key.public_key_openssh,
+      public_key_openssh  = tls_private_key.ssh_key.public_key_openssh,
       private_key_openssh = tls_private_key.ssh_key.private_key_openssh,
-      public_key_pem = tls_private_key.ssh_key.public_key_pem,
-      private_key_pem = tls_private_key.ssh_key.private_key_pem
-      username = var.vm_admin
+      public_key_pem      = tls_private_key.ssh_key.public_key_pem,
+      private_key_pem     = tls_private_key.ssh_key.private_key_pem
+      username            = var.vm_admin
     }
   )
 }
 # Locate the Packer built image
 data "hcp_packer_artifact" "secure-infra-workflow" {
-  bucket_name   = var.packer_bucket_name
-  channel_name  = var.packer_channel_name
-  platform      = var.packer_platform
-  region        = "eastus"
+  bucket_name  = var.packer_bucket_name
+  channel_name = var.packer_channel_name
+  platform     = var.packer_platform
+  region       = "eastus"
 }
 
 #Create a VM
@@ -49,7 +49,7 @@ resource "azurerm_network_security_group" "example" {
 
   security_rule {
     #name                       = "internet"
-    name = "SSH"
+    name                       = "SSH"
     priority                   = 100
     direction                  = "Inbound"
     access                     = "Allow"
@@ -87,11 +87,11 @@ resource "azurerm_network_interface" "example" {
 
 #Injecting Vault cluster address to .env file used by systemd
 data "template_cloudinit_config" "vault-config" {
-  gzip = true
+  gzip          = true
   base64_encode = true
   part {
     content_type = "text/cloud-config"
-    content = "bootcmd: [echo VAULT_ADDR=${var.vault_addr} >> /etc/vault.d/vault.env]"
+    content      = "bootcmd: [echo VAULT_ADDR=${var.vault_addr} >> /etc/vault.d/vault.env]"
   }
 }
 
@@ -100,13 +100,13 @@ resource "azurerm_linux_virtual_machine" "example" {
   resource_group_name = var.resource_group
   location            = var.az_location
   size                = "Standard_F2s_v2"
-  source_image_id = data.hcp_packer_artifact.secure-infra-workflow.external_identifier
+  source_image_id     = data.hcp_packer_artifact.secure-infra-workflow.external_identifier
   admin_username      = var.vm_admin
-  custom_data = data.template_cloudinit_config.vault-config.rendered
+  custom_data         = data.template_cloudinit_config.vault-config.rendered
   network_interface_ids = [
     azurerm_network_interface.example.id,
   ]
-    identity {
+  identity {
     type = "SystemAssigned"
   }
 
@@ -121,39 +121,39 @@ resource "azurerm_linux_virtual_machine" "example" {
   }
 }
 
-#Create HCP credential store
+#Get the Boundary project
 data "boundary_scope" "project" {
   name     = "ssh-project-2"
   scope_id = "o_GtJWfHgyA6"
 }
 
 resource "vault_token" "example" {
-  #policies = ["tfc-vault"]
-  policies = ["secure-infra-workflow"]
+  policies  = ["secure-infra-workflow"]
   no_parent = true
   renewable = true
-  period = "24h"
+  period    = "24h"
   metadata = {
     "purpose" = "boundary credential store token"
   }
 }
+#Create credential store
 resource "boundary_credential_store_vault" "example" {
   name        = "HCP Vault"
   description = "HCP Vault Credential Store"
   address     = var.vault_addr
-  namespace = "admin"
-  token = vault_token.example.client_token
+  namespace   = "admin"
+  token       = vault_token.example.client_token
   scope_id    = data.boundary_scope.project.id
 }
 
-#Create credential libary for the SSH keys
+#Create credential library for the SSH keys
 resource "boundary_credential_library_vault" "example" {
-  name = "${var.vm_name}-sshkeys"
-  description = "VM SSH keys"
+  name                = "${var.vm_name}-sshkeys"
+  description         = "VM SSH keys"
   credential_store_id = boundary_credential_store_vault.example.id
-  path = vault_kv_secret_v2.example.path
-  http_method = "GET"
-  credential_type = "ssh_private_key"
+  path                = vault_kv_secret_v2.example.path
+  http_method         = "GET"
+  credential_type     = "ssh_private_key"
   credential_mapping_overrides = {
     private_key_attribute = "private_key_pem"
   }
@@ -166,19 +166,19 @@ resource "boundary_host_catalog_static" "example" {
   scope_id    = data.boundary_scope.project.id
 }
 resource "boundary_host_static" "example" {
-  name            = "${var.vm_name}"
+  name            = var.vm_name
   host_catalog_id = boundary_host_catalog_static.example.id
   #address         = azurerm_public_ip.example2.ip_address
   address = azurerm_linux_virtual_machine.example.private_ip_address
 }
 
 resource "boundary_host_set_static" "example" {
-  name = "azure-vm-host-set"
+  name            = "azure-vm-host-set"
   host_catalog_id = boundary_host_catalog_static.example.id
   host_ids = [
     boundary_host_static.example.id
   ]
-  
+
 }
 resource "boundary_target" "example" {
   name         = "${var.vm_name}-ssh"
@@ -192,7 +192,7 @@ resource "boundary_target" "example" {
   injected_application_credential_source_ids = [
     boundary_credential_library_vault.example.id
   ]
-  egress_worker_filter = "\"azure\" in \"/tags/type\""
+  egress_worker_filter     = "\"azure\" in \"/tags/type\""
   enable_session_recording = true
   storage_bucket_id        = "sb_AJmZf2yShY"
 }

@@ -20,9 +20,9 @@ resource "azurerm_container_group" "container" {
   resource_group_name = var.resource_group
   #ip_address_type     = "Public"
   ip_address_type = "Private"
-  subnet_ids = [ azurerm_subnet.cg.id ]
-  os_type             = "Linux"
-  restart_policy      = "Never"
+  subnet_ids      = [azurerm_subnet.cg.id]
+  os_type         = "Linux"
+  restart_policy  = "Never"
 
   container {
     name   = "boundary-worker"
@@ -36,14 +36,14 @@ resource "azurerm_container_group" "container" {
     }
     environment_variables = { "HCP_BOUNDARY_CLUSTER_ID" = var.hcp_boundary_cluster_id }
     volume {
-      name = "boundary-config"
+      name       = "boundary-config"
       mount_path = "/boundary"
       git_repo {
         url = "https://github.com/bfbarkhouse/hashistack-secure-infra-workflow"
       }
     }
     commands = [
-        "/bin/sh", "-c", "mv /boundary/hashistack-secure-infra-workflow/azure/boundary-worker-config.hcl /boundary/config.hcl; rm -rf /boundary/hashistack-secure-infra-workflow; /usr/local/bin/docker-entrypoint.sh server -config /boundary/config.hcl"
-        ] 
+      "/bin/sh", "-c", "mv /boundary/hashistack-secure-infra-workflow/azure/boundary-worker-config.hcl /boundary/config.hcl; rm -rf /boundary/hashistack-secure-infra-workflow; /usr/local/bin/docker-entrypoint.sh server -config /boundary/config.hcl"
+    ]
   }
 }

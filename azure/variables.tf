@@ -2,7 +2,7 @@ variable "vault_addr" {
   type = string
 }
 variable "resource_group" {
-    type = string
+  type = string
 }
 variable "az_location" {
   type = string
@@ -26,14 +26,14 @@ variable "boundary_user" {
   type = string
 }
 variable "boundary_password" {
-  type = string
+  type      = string
   sensitive = true
 }
 variable "hcp_client_id" {
   type = string
 }
 variable "hcp_client_secret" {
-  type = string
+  type      = string
   sensitive = true
 }
 variable "packer_bucket_name" {
