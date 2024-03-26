@@ -7,10 +7,10 @@ resource "tls_private_key" "ssh_key" {
 resource "vault_kv_secret_v2" "example" {
   mount = "kv"
   #name                = "${var.vm_name}-ssh"
-  name = "/ssh/${var.vm_name}"
+  name = "ssh/${var.vm_name}"
 
-  cas                 = 1
-  delete_all_versions = true
+  #cas                 = 1
+  #delete_all_versions = true
   data_json = jsonencode(
     {
       public_key_openssh  = tls_private_key.ssh_key.public_key_openssh,
