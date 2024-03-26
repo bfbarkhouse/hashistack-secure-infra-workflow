@@ -5,8 +5,10 @@ resource "tls_private_key" "ssh_key" {
 }
 #Store All SSH keys in Vault KV
 resource "vault_kv_secret_v2" "example" {
-  mount               = "kv"
-  name                = "${var.vm_name}-ssh"
+  mount = "kv"
+  #name                = "${var.vm_name}-ssh"
+  name = "/ssh/${var.vm_name}"
+
   cas                 = 1
   delete_all_versions = true
   data_json = jsonencode(
@@ -119,6 +121,9 @@ resource "azurerm_linux_virtual_machine" "example" {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
+  tags = {
+    "service-type" : "ssh", "application" : "production"
+  }
 }
 
 #Get the Boundary project
@@ -158,7 +163,6 @@ resource "boundary_credential_library_vault" "example" {
     private_key_attribute = "private_key_pem"
   }
 }
-
 #Add the VM to Boundary
 resource "boundary_host_catalog_static" "example" {
   name        = "azure-vm-catalog"
