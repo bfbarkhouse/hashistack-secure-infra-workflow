@@ -9,7 +9,7 @@ listener "tcp" {
 
 worker {
   auth_storage_path = "/boundary/worker"
-  controller_generated_activiation_token = "env://WORKER_ACTV_TOKEN"
+  controller_generated_activation_token = "env://WORKER_ACTV_TOKEN"
   tags {
     type = ["azure", "worker"]
   }
