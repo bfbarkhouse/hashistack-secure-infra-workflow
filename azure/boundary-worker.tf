@@ -34,7 +34,7 @@ resource "azurerm_container_group" "container" {
       port     = 9202
       protocol = "TCP"
     }
-    environment_variables = { "HCP_BOUNDARY_CLUSTER_ID" = var.hcp_boundary_cluster_id }
+    environment_variables = { "HCP_BOUNDARY_CLUSTER_ID" = var.hcp_boundary_cluster_id, "WORKER_ACTV_TOKEN" = boundary_worker.az_worker.controller_generated_activation_token }
     volume {
       name       = "boundary-config"
       mount_path = "/boundary"
@@ -46,4 +46,8 @@ resource "azurerm_container_group" "container" {
       "/bin/sh", "-c", "mv /boundary/hashistack-secure-infra-workflow/azure/boundary-worker-config.hcl /boundary/config.hcl; rm -rf /boundary/hashistack-secure-infra-workflow; /usr/local/bin/docker-entrypoint.sh server -config /boundary/config.hcl"
     ]
   }
+}
+resource "boundary_worker" "az_worker" {
+  scope_id = "global"
+  name = "Azure Boundary Worker 1"
 }
