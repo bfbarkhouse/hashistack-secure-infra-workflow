@@ -1,6 +1,5 @@
 resource "boundary_worker" "az_worker" {
-  #scope_id = "global"
-  scope_id = data.boundary_scope.project.scope_id
+  scope_id = "global"
   name = "azure boundary worker 1"
 }
 
