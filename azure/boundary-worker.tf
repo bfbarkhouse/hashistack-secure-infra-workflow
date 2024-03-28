@@ -1,3 +1,8 @@
+resource "boundary_worker" "az_worker" {
+  scope_id = "global"
+  name = "azure boundary worker 1"
+}
+
 resource "azurerm_subnet" "cg" {
   name                 = "container-group-subnet"
   resource_group_name  = var.resource_group
@@ -11,7 +16,6 @@ resource "azurerm_subnet" "cg" {
       actions = ["Microsoft.Network/virtualNetworks/subnets/join/action", "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action"]
     }
   }
-
 }
 
 resource "azurerm_container_group" "container" {
@@ -46,8 +50,4 @@ resource "azurerm_container_group" "container" {
       "/bin/sh", "-c", "mv /boundary/hashistack-secure-infra-workflow/azure/boundary-worker-config.hcl /boundary/config.hcl; rm -rf /boundary/hashistack-secure-infra-workflow; /usr/local/bin/docker-entrypoint.sh server -config /boundary/config.hcl"
     ]
   }
-}
-resource "boundary_worker" "az_worker" {
-  scope_id = "global"
-  name = "Azure Boundary Worker 1"
 }
