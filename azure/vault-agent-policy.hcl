@@ -1,8 +1,5 @@
 path "kv/app1" {
-  capabilities = ["create", "update", "list", "read", "delete"]
-}
-path "azure/creds/*" {
-	capabilities = ["read"]
+  capabilities = ["read"]
 }
 path "auth/token/create" {
   capabilities = ["create", "update", "sudo"]
