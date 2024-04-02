@@ -1,6 +1,9 @@
 variable "vault_addr" {
   type = string
 }
+variable "vault_namespace" {
+  type = string
+}
 variable "resource_group" {
   type = string
 }
@@ -13,7 +16,19 @@ variable "vm_name" {
 variable "vm_admin" {
   type = string
 }
+variable "vm_size" {
+  type = string
+}
+variable "vm_admin_username" {
+  type = string
+}
 variable "boundary_addr" {
+  type = string
+}
+variable "boundary_scope_id" {
+  type = string
+}
+variable "boundary_project_name" {
   type = string
 }
 variable "hcp_boundary_cluster_id" {
@@ -28,6 +43,12 @@ variable "boundary_user" {
 variable "boundary_password" {
   type      = string
   sensitive = true
+}
+variable "boundary_session_bucket" {
+  type = string
+}
+variable "boundary_egress_filter" {
+  type = string
 }
 variable "hcp_client_id" {
   type = string
