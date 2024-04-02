@@ -1,4 +1,4 @@
-path "kv/app1" {
+path "kv/+/app1" {
   capabilities = ["read"]
 }
 path "auth/token/create" {
