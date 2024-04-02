@@ -1,9 +1,6 @@
 path "kv/+/ssh/*" {
   capabilities = ["create", "update", "read", "list", "delete"]
 }
-path "kv/app1" {
-  capabilities = ["read"]
-}
 path "auth/token/create" {
   capabilities = ["create", "update", "sudo"]
 }

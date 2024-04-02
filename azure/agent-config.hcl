@@ -10,7 +10,7 @@ auto_auth {
     namespace = "admin"
     config = {
       authenticate_from_environment = true
-      role = "vault-role"
+      role = "vault-agent-role"
       resource = "https://management.azure.com/"
     }
   }
