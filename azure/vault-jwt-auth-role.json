@@ -1,5 +1,5 @@
 {
-    "policies": ["tfc-workload"],
+    "policies": ["tfc-workload","default"],
     "bound_audiences": ["vault.workload.identity"],
     "bound_claims_type": "glob",
     "bound_claims": {

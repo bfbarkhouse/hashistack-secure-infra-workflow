@@ -124,7 +124,7 @@ data "boundary_scope" "project" {
 }
 
 resource "vault_token" "example" {
-  policies  = ["tfc-workload"]
+  policies  = ["tfc-workload","default"]
   no_parent = true
   renewable = true
   period    = "24h"
