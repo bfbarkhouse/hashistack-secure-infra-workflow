@@ -2,19 +2,19 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.92.0"
+      version = "3.102.0"
     }
     vault = {
       source  = "hashicorp/vault"
-      version = "3.25.0"
+      version = "4.2.0"
     }
     boundary = {
       source  = "hashicorp/boundary"
-      version = "1.1.14"
+      version = "1.1.15"
     }
     hcp = {
       source  = "hashicorp/hcp"
-      version = "~> 0.83.0"
+      version = "0.88.0"
     }
   }
 }

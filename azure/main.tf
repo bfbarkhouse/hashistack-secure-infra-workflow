@@ -6,7 +6,7 @@ resource "tls_private_key" "ssh_key" {
 #Store All SSH keys in Vault KV
 resource "vault_kv_secret_v2" "example" {
   mount = "kv"
-  name = "ssh/${var.vm_name}"
+  name  = "ssh/${var.vm_name}"
 
   #cas                 = 1
   #delete_all_versions = true
@@ -124,7 +124,7 @@ data "boundary_scope" "project" {
 }
 
 resource "vault_token" "example" {
-  policies  = ["tfc-workload","default"]
+  policies  = ["tfc-workload", "default"]
   no_parent = true
   renewable = true
   period    = "24h"
@@ -163,7 +163,7 @@ resource "boundary_host_catalog_static" "example" {
 resource "boundary_host_static" "example" {
   name            = var.vm_name
   host_catalog_id = boundary_host_catalog_static.example.id
-  address = azurerm_linux_virtual_machine.example.private_ip_address
+  address         = azurerm_linux_virtual_machine.example.private_ip_address
 }
 
 resource "boundary_host_set_static" "example" {
@@ -185,9 +185,17 @@ resource "boundary_target" "example" {
   injected_application_credential_source_ids = [
     boundary_credential_library_vault.example.id
   ]
-  egress_worker_filter = var.boundary_egress_filter #"\"azure\" in \"/tags/type\""
+  egress_worker_filter     = var.boundary_egress_filter #"\"azure\" in \"/tags/type\""
   enable_session_recording = true
   storage_bucket_id        = var.boundary_session_bucket
+}
+resource "boundary_alias_target" "example" {
+  name                      = "boundary_alias_target"
+  description               = "Alias to target using host boundary_host_static.example"
+  scope_id                  = var.boundary_scope_id
+  value                     = "ssh.${var.vm_name}.boundary"
+  destination_id            = boundary_target.example.id
+  authorize_session_host_id = boundary_host_static.example.id
 }
 
 #Read the SSH keys in Vault
