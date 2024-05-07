@@ -191,7 +191,6 @@ resource "boundary_target" "example" {
 }
 resource "boundary_alias_target" "example" {
   name                      = "boundary_alias_target"
-  description               = "Alias to target using host boundary_host_static.example"
   scope_id                  = var.boundary_scope_id
   value                     = "ssh.${var.vm_name}.boundary"
   destination_id            = boundary_target.example.id
