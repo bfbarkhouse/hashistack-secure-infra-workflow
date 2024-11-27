@@ -1,17 +1,7 @@
-#Create SSH keypair
-# resource "tls_private_key" "ssh_key" {
-#   algorithm = "RSA"
-#   rsa_bits  = 4096
-# }
-
-resource "null_resource" "emphemeral_ssh_key" {
-  provisioner "local-exec" {
-    command = "ssh-keygen -b 4096 -t rsa -N '' -f id_rsa <<< y"
-  }
-}
-locals {
-private_key = file("${path.module}/id_rsa")
-public_key = file("${path.module}/id_rsa.pub")
+Create SSH keypair
+resource "tls_private_key" "ssh_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
 }
 
 #Store All SSH keys in Vault KV
@@ -23,12 +13,10 @@ resource "vault_kv_secret_v2" "example" {
   #delete_all_versions = true
   data_json = jsonencode(
     {
-      # public_key_openssh  = tls_private_key.ssh_key.public_key_openssh,
-      # private_key_openssh = tls_private_key.ssh_key.private_key_openssh,
-      # public_key_pem      = tls_private_key.ssh_key.public_key_pem,
-      # private_key_pem     = tls_private_key.ssh_key.private_key_pem
-      public_key_openssh  = local.public_key,
-      private_key_openssh = local.private_key
+      public_key_openssh  = tls_private_key.ssh_key.public_key_openssh,
+      private_key_openssh = tls_private_key.ssh_key.private_key_openssh,
+      public_key_pem      = tls_private_key.ssh_key.public_key_pem,
+      private_key_pem     = tls_private_key.ssh_key.private_key_pem
       username            = var.vm_admin
     }
   )
@@ -118,8 +106,7 @@ resource "azurerm_linux_virtual_machine" "example" {
 
   admin_ssh_key {
     username   = var.vm_admin_username #adminuser
-    #public_key = tls_private_key.ssh_key.public_key_openssh
-    public_key = local.public_key
+    public_key = tls_private_key.ssh_key.public_key_openssh
   }
 
   os_disk {
@@ -165,8 +152,7 @@ resource "boundary_credential_library_vault" "example" {
   http_method         = "GET"
   credential_type     = "ssh_private_key"
   credential_mapping_overrides = {
-    #private_key_attribute = "private_key_pem"
-    private_key_attribute = "private_key_openssh"
+    private_key_attribute = "private_key_pem"
   }
 }
 #Add the VM to Boundary
